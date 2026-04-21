@@ -1,0 +1,87 @@
+.t1-5{
+    background-color: red;
+}
+.t6-10{
+    background-color: orange;
+}
+.t11-15{
+    background-color: green;
+}
+
+
+.number_task{
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  background-color: rgb(14, 7, 1);
+  color: #ccc;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: .9rem;
+}
+
+.container_task{
+  margin: 0 auto;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 0;
+}
+
+.task{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #222;
+  background-color: #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.task_checkbox{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task_delete{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.task_subrayar{
+    text-decoration:line-through;
+}
+.container_input{
+    width: 100%;
+    height: 10vh;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input{
+        width: 50%;
+        border: 1px solid #ccc;
+        outline: none;
+        padding: 10px;
+    }
+
+    button{
+        margin-left:  10px;
+        padding: 10px;
+        border: none;
+        outline: none;
+        color: black;
+    }
+   
+}
