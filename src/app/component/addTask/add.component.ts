@@ -4,22 +4,23 @@ import { NgClass, NgStyle } from "@angular/common";
 import { Task } from "../../models/task.interface";
 import { StatusTask } from "../../directives/status-task.directive";
 import { StatusDelete } from "../../directives/status-delete.directive";
+import { CreateTaskDirective } from "../../directives/create-task.directive";
 
 
 
 @Component({
 
-    selector: "app-add-task", 
+    selector: "app-add-task",
     styleUrl: './add.component.scss',
     templateUrl: './add.component.html',
-    imports: [ReactiveFormsModule, NgClass, NgStyle, StatusTask, StatusDelete],
+    imports: [ReactiveFormsModule, NgClass, NgStyle, StatusTask, StatusDelete, CreateTaskDirective],
     standalone : true
-    
+
 
 
 })
 
-export class AddComponent implements OnInit{ 
+export class AddComponent implements OnInit{
 
     numbTask!: number;
     titleTask = ""
@@ -38,7 +39,7 @@ export class AddComponent implements OnInit{
                     id: 3,
                     title: "Tarea 3",
                     completed: false}
-              
+
     ]
 
     fb = inject(FormBuilder);
@@ -49,19 +50,52 @@ export class AddComponent implements OnInit{
     ngOnInit(): void {
         this.form = this.fb.group({
             title: new FormControl("", [Validators.required, Validators.maxLength(8)])
-        })
+          })
+          // Inicializa el contador con las tareas precargadas.
+          this.numbTask = this.tasks.length;
     }
 
     sendTitleTask(){
-        if(this.form.valid){
-            console.log(this.form.value.title)
+        // Este flujo cubre el envío con Enter (ngSubmit del formulario).
+        if (this.form.invalid) {
+            return;
         }
+
+        const titleValue = this.form.get("title")?.value ?? "";
+        const title = String(titleValue).trim();
+
+        if (!title) {
+            return;
+        }
+
+        // Reusa el mismo punto de alta para no duplicar lógica.
+        this.onTaskCreated({
+            id: this.getNextId(),
+            title,
+            completed: false
+        });
+    }
+
+    getNextId(): number {
+        // Evita ids repetidos aunque se eliminen tareas intermedias.
+        if (this.tasks.length === 0) {
+            return 1;
+        }
+
+        return Math.max(...this.tasks.map((task) => task.id)) + 1;
+    }
+
+    onTaskCreated(task: Task) {
+            // Alta única de tarea: agrega, actualiza contador y limpia input.
+      this.tasks.push(task);
+      this.numbTask = this.tasks.length;
+      this.form.reset({ title: '' });
     }
 
     markTaskCompleted(task: Task, event: Event) {
         const input = event.target as HTMLInputElement;
         task.completed = input.checked;
-    
+
     }
 
 

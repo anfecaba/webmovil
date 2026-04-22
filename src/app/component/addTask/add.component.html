@@ -4,7 +4,7 @@
     't6-10': numbTask >= 6 && numbTask <= 10,
     't11-15': numbTask > 10
   }">
-  Número de tareas: {{ numbTask }}
+  Número de tareas: {{ numbTask  }}
 </h1>
 
 @if(form.get("title")?.invalid && (form.get("title")?.dirty || form.get("title")?.touched)) {
@@ -33,5 +33,6 @@
 
 <form class="container_input" [formGroup]="form" (ngSubmit)="sendTitleTask()">
   <input type="text" placeholder="Ingresa la tarea" formControlName="title">
-  <button type="submit" [disabled]="!form.valid">Enviar</button>
+  <!-- appCreateTask crea por click; ngSubmit cubre Enter; ambos terminan en onTaskCreated -->
+  <button type="submit" [disabled]="!form.valid" [appCreateTask]="form" [nextId]="getNextId()" (taskCreated)="onTaskCreated($event)">Enviar</button>
 </form>
